@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:orientation="vertical"
+    >
+    <View
+        android:layout_width="0dp"
+        android:layout_height="10dp" />
+
+    <TextView
+        android:id="@+id/stalkerNumberTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Inform this number:"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <EditText
+        android:id="@+id/stalkerNumberEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="phone"
+        android:digits="0123456789+"
+        android:hint="Input number:" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="10dp" />
+
+    <TextView
+        android:id="@+id/stalkerMessageTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="Message to send:"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+
+    <EditText
+        android:id="@+id/stalkerMessageEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:maxLines="4"
+        android:inputType="textCapSentences|textMultiLine"
+        android:text="The device has just called this number:" />
+    <View
+        android:layout_width="0dp"
+        android:layout_height="10dp"
+        />
+
+    <TextView
+        android:id="@+id/missingInformation"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text=""
+        android:textColor="#F00"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        />
+</LinearLayout>

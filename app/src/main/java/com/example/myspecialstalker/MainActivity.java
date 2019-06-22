@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity {
     private static String stalkerNumber = "";
     private static String stalkerMessage = "";
     private static boolean readyToSend = false;
+    private static boolean loadingData = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -41,6 +42,13 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putString("stalkerNumber", stalkerNumberEditText.getText().toString());
         outState.putString("stalkerMessage", stalkerMessageEditText.getText().toString());
+        saveToSharedPreferences();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        saveToSharedPreferences();
     }
 
     public void saveToSharedPreferences()
@@ -122,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
+            loadingData = true;
             new AsyncDataLoad(this).execute();
         }
     }
@@ -143,19 +152,27 @@ public class MainActivity extends AppCompatActivity {
             {
                 return null;
             }
-            SharedPreferences sharedPreferences =
+            final SharedPreferences sharedPreferences =
                     PreferenceManager.getDefaultSharedPreferences(activity.getApplicationContext());
-            activity.stalkerNumberEditText.setText(sharedPreferences.
-                    getString("stalkerNumber", ""));
-            activity.stalkerMessageEditText.setText(sharedPreferences.
-                    getString("stalkerMessage", ""));
-            activity.stalkerNumber = sharedPreferences
+            int a = 5;
+            stalkerNumber = sharedPreferences
                     .getString("stalkerNumber", "");
-            activity.stalkerMessage = sharedPreferences.
+            stalkerMessage = sharedPreferences.
                     getString("stalkerMessage", "");
-            activity.readyToSend = sharedPreferences.
+            readyToSend = sharedPreferences.
                     getBoolean("ready", false);
             return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void result) {
+
+            // get a reference to the activity if it is still there
+            MainActivity activity = mainActivityWeakReference.get();
+            if (activity == null || activity.isFinishing()) return;
+            activity.stalkerNumberEditText.setText(stalkerNumber);
+            activity.stalkerMessageEditText.setText(stalkerMessage);
+            loadingData = false;
         }
     }
 
@@ -185,8 +202,11 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count)
         {
-            stalkerNumber = stalkerNumberEditText.getText().toString();
-            stalkerMessage = stalkerMessageEditText.getText().toString();
+            if (!loadingData)
+            {
+                stalkerNumber = stalkerNumberEditText.getText().toString();
+                stalkerMessage = stalkerMessageEditText.getText().toString();
+            }
             if (stalkerNumber.isEmpty() || stalkerMessage.isEmpty())
             {
                 missingInformation.setText("Please enter information into all fields!");
@@ -197,7 +217,6 @@ public class MainActivity extends AppCompatActivity {
                 missingInformation.setText("The application is ready to stalk!");
                 readyToSend = true;
             }
-            saveToSharedPreferences();
         }
 
         @Override

@@ -1,4 +1,4 @@
-# Ex6 POST_PC (My Special Stalker)
+# Ex7 POST_PC (My Special Stalker)
 ## by Artyom Abramovich
 
 ### I pledge the highest level of ethical principles in support of academic excellence.

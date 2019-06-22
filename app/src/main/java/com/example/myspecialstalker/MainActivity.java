@@ -41,11 +41,15 @@ public class MainActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putString("stalkerNumber", stalkerNumberEditText.getText().toString());
         outState.putString("stalkerMessage", stalkerMessageEditText.getText().toString());
+    }
+
+    public void saveToSharedPreferences()
+    {
         SharedPreferences sharedPreferences =
                 PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("stalkerNumber", stalkerNumberEditText.getText().toString());
-        editor.putString("stalkerMessage", stalkerMessageEditText.getText().toString());
+        editor.putString("stalkerNumber", stalkerNumber);
+        editor.putString("stalkerMessage", stalkerMessage);
         editor.putBoolean("ready", readyToSend);
         editor.apply();
     }
@@ -193,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                 missingInformation.setText("The application is ready to stalk!");
                 readyToSend = true;
             }
+            saveToSharedPreferences();
         }
 
         @Override
